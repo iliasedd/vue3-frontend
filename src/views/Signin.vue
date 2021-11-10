@@ -3,7 +3,7 @@
     <h1>Signin</h1>
     <div class="row">
       <div class="col-md-6 mx-auto mt-3">
-        <form @submit.prevent="signin">
+        <form @submit.prevent="submit">
           <div class="form-group">
             <label for="email">email</label>
             <input v-model="user.email" type="email" id="email" class="form-control">
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-  import axios from 'axios'
+  import { mapActions } from 'vuex'
 
   export default {
     data() {
@@ -34,9 +34,11 @@
       }
     },
     methods: {
-      async signin() {
-        const response = await axios.post("auth/login", this.user)
-        console.log(response.data)
+      ...mapActions({
+        'signIn': 'auth/signIn'
+      }),
+      submit() {
+        this.signIn(this.user).then(() => this.$router.replace({ name: "Dashboard" }))
       }
     }
   }
