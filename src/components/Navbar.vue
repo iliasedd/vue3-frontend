@@ -34,7 +34,7 @@
         </li>
 
 				<li v-if="authenticated" class="nav-item active">
-          <a class="nav-link" href="#">logout</a>
+          <a @click="logOut" class="nav-link" href="#">logout</a>
         </li>
       </ul>
 		</nav>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-	import { mapGetters } from 'vuex';
+	import { mapActions, mapGetters } from 'vuex';
 	
 	export default {
 		computed: {
@@ -50,6 +50,14 @@
 				'authenticated': 'auth/authenticated',
 				'user': 'auth/user'
 			})
+		},
+		methods: {
+			...mapActions({
+				"signOut": "auth/signOut"
+			}),
+			logOut() {
+				this.signOut().then(() => this.$router.replace({ name: "Home" }))
+			}
 		}
 	};
 </script>

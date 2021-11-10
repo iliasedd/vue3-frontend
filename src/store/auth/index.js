@@ -23,6 +23,12 @@ export default {
         console.log(error)
       }
     },
+    signOut({ commit }) {
+      return axios.post("auth/logout").then(() => {
+        commit('setToken', null)
+        commit('setUser', null)
+      })
+    },
     async attempt({ commit, state }, token) {
       try {
         if (token) {
